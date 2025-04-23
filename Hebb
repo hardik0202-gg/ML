@@ -1,0 +1,80 @@
+
+import numpy as np
+import pandas as pd
+
+
+w = np.array([1, -1, 0, 0.5]).transpose()
+Xi = [
+    np.array([1, -2, 1.5, 0]).transpose(),
+    np.array([1, -0.5, -2, -1.5]).transpose(),
+    np.array([0, 1, -1, 1.5]).transpose()
+]
+
+C = 1
+Iteration = 0
+print(w)
+print(Xi)
+
+
+for i in range(len(Xi)):
+    net = sum(w.transpose() * Xi[i])
+    Fnet = np.sign(net)
+    dw = C * Fnet * Xi[i]
+    w = w + dw
+    print('weight vector for this iteration:', w)
+    Iteration += 1
+
+print("final weight matrix:", w)
+print("number of iterations: ", Iteration)
+
+np.random.seed(seed=0)
+I = np.random.choice([0, 1], 3)
+W = np.random.choice([-1, 1], 3)
+print('Input vector: ', I)
+print('Input vector: ', W)
+
+dot = I @ W
+print('dot product: ', dot)
+
+def linear_threshold_gate(dot: int, T: float) -> int:
+    if dot >= T:
+        return 1
+    else:
+        return 0
+
+T = 1
+activation = linear_threshold_gate(dot, T)
+print('activation: ', activation)
+
+T = 3
+activation = linear_threshold_gate(dot, T)
+print('activation: ', activation)
+
+
+input_table = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+print('input table for AND gate:\n', input_table)
+
+
+weights = np.array([1, 1])
+print('weights: ', weights)
+
+dot_products = input_table @ weights
+print('dot product: ', dot_products)
+
+T = 2
+for i in range(0, 4):
+    activation = linear_threshold_gate(dot_products[i], T)
+    print('Activation: ', activation)
+
+
+T = 1
+for i in range(0, 4):
+    activation = linear_threshold_gate(dot_products[i], T)
+    print('Activation: ', activation)
+
+
+weights = np.array([-1, -1])
+print('weights: ', weights)
+
+dot_products = input_table @ weights
+print('dot product: ', dot_products)
